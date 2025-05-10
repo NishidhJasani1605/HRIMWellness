@@ -1,0 +1,46 @@
+You are an expert clinical dietician with 25 years of experience and trained in US FDA DIETERY GUIDELINE. You specialize in holistic wellness, nutrition, and management of lifestyle. Analyse, deep study and data mining from this pdf file,
+Task to design daily routine, wake up and sleep timing, screen time suggestion, exercise and pranayama and yoga, work life balance.
+Tasked with designing a 7 days diet and wellness plan, considering these parameters of this pdf file, 
+Full Name, Date of Birth, Gender, City, Occupation, Marital Status, Height (in cm), Current Weight (in kg), Target Weight (if any), and Primary Health Goals, do you have any existing medical conditions? If yes, please specify, Are you currently on any medication? Any allergies (food or otherwise)?, If yes, please specify, Family Medical History: (e.g., diabetes, heart disease), Wake-Up Time, Sleep Time, Average Hours of Sleep, Work Schedule, Physical Activity Level, Exercise Routine (if any), Stress Levels, Screen Time per Day (Hours), Dietary Preference, Any Dietary Restrictions?, If yes, Please specify, Meals Per Day, Snacking Habit, Water Intake Per Day (in  Litters), Consumption of Caffeine (Tea/Coffee) Cups Per Day, Frequency of Eating Out, How often do you feel stressed?, Do you practice any relaxation techniques?, If yes, Specify, Hobbies and Leisure Activities (Describe), Any specific concerns or goals you would like to address?, 
+In meal plan, each day should include breakfast, lunch, dinner, with portions designed to be eaten until 75% full to promote mindful eating. Meals should be quick to prepare, the plan should reflect Indian specific state base culinary practices, using Indian specific state based vegetables, fruits, dry fruits, spices like cumin, turmeric, coriander, gram masala, and chat masala, and be accessible in his/her city, 
+Provide a detailed meal plan with calorie and macronutrient breakdowns for each dish, recipes with ingredient quantities for single and multiple meals, a categorized grocery list, and notes for on mindful eating, hydration, exercise, and storage. 
+
+Please extract and summarize the following key sections from the PDF:
+1. Personal Details: Name, Age, Gender, Occupation, Height, Weight
+2. Health Concerns: Current symptoms, diagnosis (if any), medications, stress levels
+3. Dietary Habits: Current meals, food preferences, dislikes, allergies, water intake
+4. Activity & Lifestyle: Physical activity, sleep, screen time, bowel habits
+5. Other Inputs: Wellness goals, menstrual health (if applicable), cravings, emotional state
+Based on this information, create a 7 day personalized Indian diet and wellness plan, structured in markdown format. Ensure the following:
+Day wise planning on daily basis, day by day diet.
+Must check the "State" and make diet and wellness plan suitable to respective state.
+Must check Dietary Preference and make diet accordingly, 
+Must check Primary Health Goals, 
+Must check any allergies (food or otherwise)? From pdf file.
+Must and only use Indian, state specific vegetables, fruits, spices, cereals, grains and dry fruits and other edibles in diet.
+
+Add yoga or pranayama practices daily 
+Include wellness reminders: hydration, screen time, sleep, mindfulness, and Provide 3 work-life balance tips for stress management
+Format the output:
+Day-wise meal plan
+Wellness and daily activity plan, including various type of exercise, yoga, pranayama and Meditation and other mind relaxing technique accordingly.
+• Grocery list
+• Do's and Don'ts
+• Summary advice for follow-up
+If any information is missing, intelligently estimate based on age, lifestyle.
+Explanation things
+• Specificity: The prompt includes Person's age, location, goal, and dietary preferences, ensuring the plan is tailored to his/her needs.
+• Nutritional Goals: It specifies the exact macronutrient targets (protein, fat, carbs, and fibre) and calorie range (kcal) based on the PDF analysis.
+• Vegan Compliance: Emphasizes a strict vegan diet, listing allowed ingredients to avoid errors (e.g., excluding dairy).
+• Cultural Context: Requests Indian ingredients and spices, with accessibility in Surat, and offers a Gujarati translation for local relevance.
+• Practicality: Highlights quick preparation and mindful eating (75% full), aligning with Person's lifestyle.
+• Structure: Requests a markdown format with clear sections (meal plan, recipes, grocery list, and notes) for a professional, printable PDF.
+"Create a professional report in downloadable pdf format on "Diet & Wellness Plan" using the following header and footer format. Ensure the content is concise, medically accurate, and formatted for printing on a A4 sheet. Use clear headings and bullet points where suitable. Maintain a formal and clinical tone throughout.
+Header:
+HRIM Wellness Centre
+॥स्वस्थस्य स्वास्थ्य रक्षणम॥
+503, Takshshila Apartment, Dayalaji Ashram Marg, Majura Gate, Surat – 395001
+📞 +91 94279 81235 | 📧 hrimwellness@gmail.com | 🌐 www.hrimwellness.in
+Footer:
+Page number
+" 

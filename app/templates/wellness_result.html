@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Plan - {{ client_name }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        header {
+            background-color: #1e88e5;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+        }
+        header .sanskrit {
+            font-style: italic;
+            color: #fff;
+            margin: 5px 0;
+        }
+        header .contact {
+            font-size: 12px;
+            color: #fff;
+            margin-top: 10px;
+        }
+        .nav-menu {
+            background-color: #1565c0;
+            padding: 10px 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-menu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+        .nav-menu li {
+            margin: 0 15px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        .nav-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-menu a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        .client-info {
+            margin: 20px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 5px;
+        }
+        .content {
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #1e88e5;
+        }
+        h2 {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-top: 20px;
+        }
+        pre {
+            white-space: pre-wrap;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .actions {
+            margin: 30px 0;
+            text-align: center;
+        }
+        .btn {
+            display: inline-block;
+            background: #1e88e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .btn:hover {
+            background: #1565c0;
+        }
+        .btn-secondary {
+            background: #95a5a6;
+        }
+        .btn-secondary:hover {
+            background: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HRIM Wellness Centre</h1>
+        <div class="sanskrit">॥स्वस्थस्य स्वास्थ्य रक्षणम॥</div>
+        <div>503, Takshshila Apartment, Dayalaji Ashram Marg, Majura Gate, Surat – 395001</div>
+        <div class="contact">📞 +91 94279 81235 | 📧 hrimwellness@gmail.com | 🌐 www.hrimwellness.in</div>
+    </header>
+
+    <nav class="nav-menu">
+        <ul>
+            <li><a href="/">Main Dashboard</a></li>
+            <li><a href="/wellness_dashboard">Wellness Plans</a></li>
+            <li><a href="/wellness_form">New Wellness Form</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="client-info">
+            <strong>Client:</strong> {{ client_name }}<br>
+            <strong>Date Generated:</strong> {{ now().strftime('%d %B, %Y') }}
+        </div>
+        
+        <div class="content">
+            <!-- Convert markdown to HTML -->
+            <div id="markdown-content">
+                <pre>{{ content }}</pre>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <a href="{{ url_for('download_file', filename=download_path.split('/')[-1]) }}" class="btn">Download as PDF</a>
+            <a href="{{ url_for('wellness_form') }}" class="btn btn-secondary">Generate Another Plan</a>
+        </div>
+    </div>
+
+    <script>
+        // Function to convert the actual date
+        function now() {
+            return new Date();
+        }
+        
+        // You could also add a Markdown-to-HTML converter here if needed
+    </script>
+</body>
+</html> 

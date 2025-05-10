@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRIM Wellness Plan Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f5f7fa;
+        }
+        header {
+            background-color: #1e88e5;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+        }
+        .nav-menu {
+            background-color: #1565c0;
+            padding: 10px 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .nav-menu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            justify-content: center;
+        }
+        .nav-menu li {
+            margin: 0 15px;
+        }
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        .nav-menu a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .nav-menu a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+        .section h2 {
+            margin-top: 0;
+            color: #3498db;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .radio-group {
+            margin-top: 5px;
+        }
+        .radio-group label {
+            display: inline;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        .conditional-field {
+            margin-left: 20px;
+            margin-top: 10px;
+            padding-left: 10px;
+            border-left: 3px solid #3498db;
+        }
+        .required:after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HRIM Wellness Plan Generator</h1>
+    </header>
+
+    <nav class="nav-menu">
+        <ul>
+            <li><a href="/">Main Dashboard</a></li>
+            <li><a href="/wellness_dashboard">Wellness Plans</a></li>
+            <li><a href="/wellness_form" class="active">New Wellness Form</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h2>Client Information Form</h2>
+        <form action="/generate_wellness_plan" method="post">
+            <!-- Section 1: Diet & Wellness Plan -->
+            <div class="section">
+                <h2>Diet & Wellness Plan</h2>
+                <div class="form-group">
+                    <label for="email" class="required">Email</label>
+                    <input type="email" id="email" name="Email" required>
+                </div>
+            </div>
+
+            <!-- Section 2: Personal Details -->
+            <div class="section">
+                <h2>Personal Details</h2>
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" id="full_name" name="Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="Date of Birth">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <div class="radio-group">
+                        <input type="radio" id="male" name="Gender" value="Male">
+                        <label for="male">Male</label>
+                        <input type="radio" id="female" name="Gender" value="Female">
+                        <label for="female">Female</label>
+                        <input type="radio" id="prefer_not_to_say" name="Gender" value="Prefer not to say">
+                        <label for="prefer_not_to_say">Prefer not to say</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp Contact Number</label>
+                    <input type="text" id="whatsapp" name="WhatsApp Contact Number">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="Address">
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" id="city" name="City">
+                </div>
+                <div class="form-group">
+                    <label for="pin">PIN</label>
+                    <input type="text" id="pin" name="PIN">
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" id="state" name="State">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="Country">
+                </div>
+                <div class="form-group">
+                    <label for="occupation">Occupation</label>
+                    <input type="text" id="occupation" name="Occupation">
+                </div>
+                <div class="form-group">
+                    <label>Marital Status</label>
+                    <div class="radio-group">
+                        <input type="radio" id="single" name="Marital Status" value="Single">
+                        <label for="single">Single</label>
+                        <input type="radio" id="married" name="Marital Status" value="Married">
+                        <label for="married">Married</label>
+                        <input type="radio" id="other_marital" name="Marital Status" value="Other">
+                        <label for="other_marital">Other</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Demographic and Lifestyle Information -->
+            <div class="section">
+                <h2>Demographic and Lifestyle Information</h2>
+                <div class="form-group">
+                    <label for="height">Height (in cm)</label>
+                    <input type="number" id="height" name="Height (in cm)">
+                </div>
+                <div class="form-group">
+                    <label for="current_weight">Current Weight (in kg)</label>
+                    <input type="number" id="current_weight" name="Current Weight (in kg)">
+                </div>
+                <div class="form-group">
+                    <label for="target_weight">Target Weight (if any)</label>
+                    <input type="number" id="target_weight" name="Target Weight (if any)">
+                </div>
+                <div class="form-group">
+                    <label>Primary Health Goals (select all that apply)</label>
+                    <div>
+                        <input type="checkbox" id="weight_loss" name="health_goals" value="Weight Loss">
+                        <label for="weight_loss">Weight Loss</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="weight_gain" name="health_goals" value="Weight Gain">
+                        <label for="weight_gain">Weight Gain</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="manage_disease" name="health_goals" value="Manage Chronic Disease">
+                        <label for="manage_disease">Manage Chronic Disease</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="improve_fitness" name="health_goals" value="Improve Fitness & Stamina">
+                        <label for="improve_fitness">Improve Fitness & Stamina</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="boost_immunity" name="health_goals" value="Boost Immunity">
+                        <label for="boost_immunity">Boost Immunity</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" id="stress_management" name="health_goals" value="Stress Management">
+                        <label for="stress_management">Stress Management</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More sections can be added as needed -->
+
+            <button type="submit">Generate Wellness Plan</button>
+        </form>
+
+        <!-- Scripts to handle conditional fields -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // This can be expanded to handle all conditional fields
+                // For example, showing the "If yes, please specify" fields only when "Yes" is selected
+            });
+        </script>
+    </div>
+</body>
+</html> 

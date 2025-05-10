@@ -1,0 +1,60 @@
+Section 1: Diet & Wellness Plan
+- Email (required)
+
+Section 2: Personal Details
+- Full Name
+- Date of Birth
+- Gender (Male, Female, Prefer not to say)
+- WhatsApp Contact Number
+- Address
+- City
+- PIN
+- State
+- Country
+- Occupation
+- Marital Status (Single, Married, Other)
+
+Section 3: Demographic and Lifestyle Information
+- Height (in cm)
+- Current Weight (in kg)
+- Target Weight (if any)
+- Primary Health Goals (Weight Loss, Weight Gain, Manage Chronic Disease, Improve Fitness & Stamina, Boost Immunity, Stress Management)
+
+Section 4: Medical History
+- Do you have any existing medical conditions? (Yes/No)
+- If yes, please specify medical conditions
+- Are you currently on any medication? (Yes/No)
+- Any allergies (food or otherwise)? (Yes/No)
+- If yes, please specify allergies
+- Family Medical History (e.g., diabetes, heart disease)
+
+Section 5: Daily Routine and Lifestyle
+- Wake-Up Time
+- Sleep Time
+- Average Hours of Sleep
+- Work Schedule (Fixed, Rotational, Remote, Field Work, Other)
+- Physical Activity Level (Sedentary, Lightly Active, Moderately Active, Very Active)
+- Exercise Routine (if any)
+- Stress Levels (Low, Moderate, High)
+- Screen Time per Day (Hours)
+
+Section 6: Dietary Preferences and Habits
+- Dietary Preference (Vegetarian, Non-Vegetarian, Mixed Diet, Vegan, Gluten free, Jain, Other)
+- Any Dietary Restrictions? (Yes/No)
+- If yes, please specify Dietary Restrictions
+- Meals Per Day (2, 3, 4, More)
+- Snacking Habit (Yes, No, Occasionally)
+- Water Intake Per Day (in Liters)
+- Consumption of Caffeine (Tea/Coffee) Cups Per Day
+- Frequency of Eating Out (Rarely, Weekly, Monthly, Frequently)
+
+Section 7: Mental and Emotional Well-being
+- How often do you feel stressed? (Rarely, Sometimes, Often)
+- Do you practice any relaxation techniques? (Yes/No)
+- If yes, specify relaxation techniques
+- Hobbies and Leisure Activities (Describe)
+
+Section 8: Additional Information
+- Any specific concerns or goals you would like to address?
+- Have you followed any diet or fitness plan before? (Yes/No)
+- If yes, what type and what were the results? 
