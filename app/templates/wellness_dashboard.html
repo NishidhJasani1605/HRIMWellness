@@ -138,6 +138,8 @@
             list-style: none;
             padding: 0;
             margin: 0;
+            max-height: 500px;
+            overflow-y: auto;
         }
         .plan-item {
             padding: 15px;
@@ -169,6 +171,11 @@
             background-color: #fafafa;
             font-family: 'Courier New', monospace;
             white-space: pre-wrap;
+        }
+        .pdf-preview {
+            height: 100%;
+            width: 100%;
+            border: none;
         }
         .form-toggle {
             cursor: pointer;
@@ -214,6 +221,12 @@
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
+        /* PDF viewer styles */
+        embed[type="application/pdf"] {
+            width: 100%;
+            height: 100%;
+            min-height: 500px;
+        }
     </style>
 </head>
 <body>
@@ -255,6 +268,7 @@
                         </select>
                     </div>
                     <button id="generate-random">Generate with Random Data</button>
+                    <button id="generate-test-pdf" style="margin-top: 10px; background-color: #4CAF50;">Generate Test PDF</button>
                 </div>
 
                 <!-- JSON File Form -->
@@ -367,7 +381,6 @@
             // Load generated plans
             function loadGeneratedPlans() {
                 // Here we would fetch the list of generated plans from the server
-                // For demonstration, we'll create mock data
                 const planListElement = document.getElementById('plan-list');
                 planListElement.innerHTML = '<li>Loading plans...</li>';
 
@@ -402,11 +415,68 @@
                     .catch(error => {
                         console.error('Error loading plans:', error);
                         planListElement.innerHTML = '<li>Error loading plans</li>';
+                        
+                        // Fallback to directly loading files from generated_data
+                        loadGeneratedFilesDirectly();
                     });
+            }
+            
+            // Fallback function to load files directly from generated_data folder
+            function loadGeneratedFilesDirectly() {
+                const planListElement = document.getElementById('plan-list');
+                planListElement.innerHTML = '';
+                
+                // These files are from your generated_data folder
+                const files = [
+                    { name: 'test_wellness_plan_20250510_101230.pdf', date: '2025-05-10', size: '109KB' },
+                    { name: 'wellness_plan_Sanjay_Singh_20250509_225442.pdf', date: '2025-05-09', size: '66KB' },
+                    { name: 'wellness_plan_Raj_Desai_20250509_223202.pdf', date: '2025-05-09', size: '65KB' },
+                    { name: 'wellness_plan_Vikram_Sharma_20250509_222258.pdf', date: '2025-05-09', size: '76KB' },
+                    { name: 'wellness_plan_Sanjay_Kumar_20250509_215250.pdf', date: '2025-05-09', size: '100KB' },
+                    { name: 'wellness_plan_Vikram_Verma_20250509_214700.pdf', date: '2025-05-09', size: '94KB' },
+                    { name: 'wellness_plan_Priya_Sharma_20250509_213939.pdf', date: '2025-05-09', size: '91KB' }
+                ];
+                
+                files.forEach(file => {
+                    const planItem = document.createElement('li');
+                    planItem.className = 'plan-item';
+                    planItem.setAttribute('data-path', `/generated_data/${file.name}`);
+                    
+                    // Extract client name from filename
+                    let clientName = file.name.replace('wellness_plan_', '').replace(/\d+/g, '');
+                    clientName = clientName.replace(/_/g, ' ').replace('.pdf', '').trim();
+                    
+                    // Format date from filename
+                    const dateStr = file.name.match(/\d{8}/)?.[0] || '';
+                    let formattedDate = '';
+                    if (dateStr) {
+                        const year = dateStr.substring(0, 4);
+                        const month = dateStr.substring(4, 6);
+                        const day = dateStr.substring(6, 8);
+                        formattedDate = `${day}/${month}/${year}`;
+                    }
+                    
+                    planItem.innerHTML = `
+                        <h3>${clientName || file.name}</h3>
+                        <p>Generated: ${formattedDate || file.date}</p>
+                        <p>PDF - ${file.size}</p>
+                    `;
+                    
+                    planItem.addEventListener('click', function() {
+                        loadPdfPreview(`/generated_data/${file.name}`);
+                    });
+                    
+                    planListElement.appendChild(planItem);
+                });
             }
 
             // Load plan preview
             function loadPlanPreview(planPath) {
+                if (planPath.toLowerCase().endsWith('.pdf')) {
+                    loadPdfPreview(planPath);
+                    return;
+                }
+                
                 const previewElement = document.getElementById('plan-preview');
                 const previewTitle = document.getElementById('preview-title');
                 const downloadButton = document.getElementById('download-plan');
@@ -459,6 +529,51 @@
                         console.error('Error loading plan preview:', error);
                         previewElement.textContent = 'Error loading preview';
                     });
+            }
+            
+            // Load PDF preview
+            function loadPdfPreview(pdfPath) {
+                const previewElement = document.getElementById('plan-preview');
+                const previewTitle = document.getElementById('preview-title');
+                const downloadButton = document.getElementById('download-plan');
+                const printButton = document.getElementById('print-plan');
+                
+                // Switch to preview tab
+                document.querySelector('[data-tab="preview"]').click();
+                
+                // Extract filename
+                const filename = pdfPath.split('/').pop();
+                previewTitle.textContent = filename;
+                
+                // Clear previous content
+                previewElement.innerHTML = '';
+                
+                // Create PDF embed element
+                const embed = document.createElement('embed');
+                embed.src = pdfPath;
+                embed.type = 'application/pdf';
+                embed.style.width = '100%';
+                embed.style.height = '100%';
+                previewElement.appendChild(embed);
+                
+                // Enable buttons
+                downloadButton.disabled = false;
+                printButton.disabled = false;
+                
+                // Set download link
+                downloadButton.onclick = function() {
+                    window.location.href = pdfPath;
+                };
+                
+                // Set print function
+                printButton.onclick = function() {
+                    const printWindow = window.open(pdfPath, '_blank');
+                    if (printWindow) {
+                        setTimeout(() => {
+                            printWindow.print();
+                        }, 1000);
+                    }
+                };
             }
 
             // Generate wellness plan
@@ -551,6 +666,74 @@
                 generateWellnessPlan('random', { format });
             });
 
+            // Generate test PDF using test_pdf_layout.py
+            document.getElementById('generate-test-pdf').addEventListener('click', function() {
+                const loader = document.getElementById('loader');
+                const statusMessage = document.getElementById('status-message');
+                const activityLog = document.getElementById('activity-log');
+                
+                loader.style.display = 'block';
+                statusMessage.style.display = 'none';
+                
+                // Log activity
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.textContent = `[${timestamp}] Generating test PDF using test_pdf_layout.py...`;
+                activityLog.prepend(logEntry);
+                
+                fetch('/api/generate-test-pdf', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    loader.style.display = 'none';
+                    
+                    if (data.success) {
+                        statusMessage.textContent = data.message;
+                        statusMessage.className = 'status-message success';
+                        
+                        // Log success
+                        const successLog = document.createElement('div');
+                        successLog.textContent = `[${new Date().toLocaleTimeString()}] Success: ${data.message}`;
+                        activityLog.prepend(successLog);
+                        
+                        // Refresh plan list
+                        loadGeneratedPlans();
+                        
+                        // Preview the generated plan
+                        if (data.planPath) {
+                            loadPdfPreview(data.planPath);
+                        }
+                    } else {
+                        statusMessage.textContent = data.message || 'An error occurred';
+                        statusMessage.className = 'status-message error';
+                        
+                        // Log error
+                        const errorLog = document.createElement('div');
+                        errorLog.textContent = `[${new Date().toLocaleTimeString()}] Error: ${data.message || 'An error occurred'}`;
+                        activityLog.prepend(errorLog);
+                    }
+                    
+                    statusMessage.style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error generating test PDF:', error);
+                    loader.style.display = 'none';
+                    statusMessage.textContent = 'Error: Unable to generate test PDF';
+                    statusMessage.className = 'status-message error';
+                    statusMessage.style.display = 'block';
+                    
+                    // Log error
+                    const errorLog = document.createElement('div');
+                    errorLog.textContent = `[${new Date().toLocaleTimeString()}] Error: Unable to generate test PDF - ${error.message}`;
+                    activityLog.prepend(errorLog);
+                });
+            });
+
             // Generate from file
             document.getElementById('generate-file').addEventListener('click', function() {
                 const filePath = document.getElementById('file-path').value.trim();
@@ -582,7 +765,7 @@
                 });
             });
 
-            // Initial load
+            // Initial load - try loading from API first, fallback to direct file loading
             loadGeneratedPlans();
         });
     </script>

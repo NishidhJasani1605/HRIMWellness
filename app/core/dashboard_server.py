@@ -322,9 +322,9 @@ def get_wellness_plans():
         if not os.path.exists(output_dir):
             return jsonify([])
         
-        # Get all markdown files in the output directory
+        # Get all markdown and PDF files in the output directory
         for filename in os.listdir(output_dir):
-            if filename.endswith('.md'):
+            if filename.endswith('.md') or filename.endswith('.pdf'):
                 file_path = os.path.join(output_dir, filename)
                 stats = os.stat(file_path)
                 file_size = stats.st_size / 1024  # KB
@@ -337,11 +337,17 @@ def get_wellness_plans():
                 else:
                     client_name = filename
                 
+                # Determine file type
+                file_type = 'PDF' if filename.endswith('.pdf') else 'Markdown'
+                
+                # Create relative path for frontend
+                relative_path = f"/generated_data/{filename}"
+                
                 plans.append({
                     'name': client_name,
-                    'path': file_path,
+                    'path': relative_path,
                     'date': creation_time.strftime('%Y-%m-%d %H:%M:%S'),
-                    'type': 'Markdown',
+                    'type': file_type,
                     'size': f'{file_size:.2f} KB'
                 })
         
@@ -358,8 +364,21 @@ def get_wellness_plan():
     """Get the content of a wellness plan"""
     plan_path = request.args.get('path')
     
-    if not plan_path or not os.path.exists(plan_path):
+    if not plan_path:
+        return "No path provided", 400
+    
+    # Handle paths that start with /generated_data/
+    if plan_path.startswith('/generated_data/'):
+        filename = plan_path.split('/')[-1]
+        generated_data_path = os.environ.get('GENERATED_DATA_PATH', 'generated_data')
+        plan_path = os.path.join(generated_data_path, filename)
+    
+    if not os.path.exists(plan_path):
         return "Plan not found", 404
+    
+    # If it's a PDF file, return a message indicating to use the PDF viewer
+    if plan_path.lower().endswith('.pdf'):
+        return "PDF file - use the PDF viewer to display this content"
     
     try:
         with open(plan_path, 'r', encoding='utf-8') as f:
@@ -534,6 +553,68 @@ def api_generate_from_file():
         return jsonify({
             'success': False,
             'message': f"Error: {str(e)}"
+        })
+
+@app.route('/generated_data/<path:filename>')
+def serve_generated_data(filename):
+    """Serve files from the generated_data directory"""
+    # Get the generated data path
+    generated_data_path = os.environ.get('GENERATED_DATA_PATH', 'generated_data')
+    
+    # Check if the file exists
+    file_path = os.path.join(generated_data_path, filename)
+    if not os.path.exists(file_path):
+        return jsonify({
+            'status': 'error',
+            'message': f'File {filename} not found'
+        }), 404
+        
+    # Serve the file
+    return send_file(file_path)
+
+@app.route('/api/generate-test-pdf', methods=['POST'])
+def api_generate_test_pdf():
+    """Generate a test wellness PDF using the test_pdf_layout.py script"""
+    try:
+        # Import the test PDF layout script
+        import sys
+        from pathlib import Path
+        
+        # Add the project root to path if needed
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        if project_root not in sys.path:
+            sys.path.insert(0, project_root)
+            
+        # Import functions from test_pdf_layout.py
+        from test_pdf_layout import load_sample_data, generate_sample_wellness_plan, main as generate_test_pdf
+        
+        # Generate the test PDF
+        generate_test_pdf()
+        
+        # Get the latest generated PDF file
+        output_dir = Path('generated_data')
+        pdf_files = list(output_dir.glob('test_wellness_plan_*.pdf'))
+        if not pdf_files:
+            return jsonify({
+                'success': False,
+                'message': 'No PDF files generated'
+            })
+            
+        # Sort by creation time, get the most recent
+        latest_pdf = sorted(pdf_files, key=lambda f: f.stat().st_ctime, reverse=True)[0]
+        
+        # Return success with the path to the generated PDF
+        return jsonify({
+            'success': True,
+            'message': f'Test wellness PDF generated successfully',
+            'planPath': f'/generated_data/{latest_pdf.name}'
+        })
+        
+    except Exception as e:
+        app.logger.error(f"Error generating test PDF: {str(e)}")
+        return jsonify({
+            'success': False,
+            'message': f'Error generating test PDF: {str(e)}'
         })
 
 if __name__ == '__main__':
